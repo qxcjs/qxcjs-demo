@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Appenders>
+    <Console name="LogToConsole" target="SYSTEM_OUT">
+        <PatternLayout pattern="${LOG_PATTERN}" charset="UTF-8"/>
+    </Console>
+    <RollingFile name="infoLogToFile"
+                 fileName="${BasePath}/${AppName}-info.log"
+                 filePattern="${BasePath}/${AppName}-info-%d{yyyy-MM-dd-HH}-%i.log">
+        <PatternLayout pattern="${LOG_PATTERN}"/>
+        <Policies>
+            <!-- 根据日志的最小时间 默认 interval 为1,如最小时间为 HH 表示每隔一小时生成一个文件，如果为mm每隔一分钟生成一个文件 -->
+            <TimeBasedTriggeringPolicy interval="1"/>
+            <!-- 文件大于 size 就单独分隔 -->
+            <SizeBasedTriggeringPolicy size="100MB"/>
+        </Policies>
+        <DefaultRolloverStrategy max="24">
+            <!-- 超过7天的自动删除 -->
+            <Delete basePath="${BasePath}/" maxDepth="1" testMode="true">
+                <IfFileName glob="${AppName}-info-*.log"/>
+                <IfLastModified age="7d"/>
+            </Delete>
+        </DefaultRolloverStrategy>
+        <Filters>
+            <!--如果是error级别拒绝，设置 onMismatch="NEUTRAL" 可以让日志经过后续的过滤器-->
+            <ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
+            <!--如果是debug\info\warn级别的日志输出,其他的拒绝-->
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+        </Filters>
+    </RollingFile>
+    <RollingFile name="errorLogToFile"
+                 fileName="${BasePath}/${AppName}-error.log"
+                 filePattern="${BasePath}/${AppName}-error-%d{yyyy-MM-dd-HH}-%i.log">
+        <PatternLayout pattern="${LOG_PATTERN}"/>
+        <Policies>
+            <TimeBasedTriggeringPolicy/>
+            <SizeBasedTriggeringPolicy size="100MB"/>
+        </Policies>
+        <DefaultRolloverStrategy max="24">
+            <!--超过7天的自动删除-->
+            <Delete basePath="${BasePath}/" maxDepth="1" testMode="false">
+                <IfFileName glob="${AppName}-error-*.log"/>
+                <IfLastModified age="7d"/>
+            </Delete>
+        </DefaultRolloverStrategy>
+        <Filters>
+            <!-- 只接收error及以上级别日志 -->
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMisMatch="DENY"/>
+        </Filters>
+    </RollingFile>
+    <RollingFile name="sqlLogToFile"
+                 fileName="${BasePath}/sql/${AppName}.log"
+                 filePattern="${BasePath}/sql/${AppName}-%d{yyyy-MM-dd-HH}-%i.log">
+        <PatternLayout pattern="${LOG_PATTERN}"/>
+        <Policies>
+            <TimeBasedTriggeringPolicy/>
+            <SizeBasedTriggeringPolicy size="100MB"/>
+        </Policies>
+        <DefaultRolloverStrategy max="24">
+            <!--超过7天的自动删除-->
+            <Delete basePath="${BasePath}/sql/" maxDepth="1" testMode="false">
+                <IfFileName glob="${AppName}*.log"/>
+                <IfLastModified age="7d"/>
+            </Delete>
+        </DefaultRolloverStrategy>
+    </RollingFile>
+</Appenders>

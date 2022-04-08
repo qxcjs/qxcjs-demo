@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Properties>
+    <property name="AppName">demo-jwt</property>
+    <property name="BasePath">logs</property>
+    <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %clr{%-5level}{green} %clr{%logger{10}.%M}{magenta}:%clr{%L}{cyan} - %msg%xEx %n</Property>
+</Properties>
+

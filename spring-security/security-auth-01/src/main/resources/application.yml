@@ -1,0 +1,11 @@
+spring:
+  thymeleaf: # 页面修改后立即生效，关闭缓存，立即刷新
+    cache: false
+  devtools:
+    restart:
+      enabled: true # 热部署生效
+      additional-paths: src/main # 设置需要重启的目录
+
+logging:
+  level:
+    org.springframework.security: debug

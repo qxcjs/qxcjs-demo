@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration xmlns:xi="http://www.w3.org/2001/XInclude"
+               status="debug" monitorInterval="30">
+    <xi:include href="log4j2-properties.xml"/>
+    <xi:include href="log4j2-appender.xml"/>
+    <Loggers>
+        <!-- mybatis mapper sql log -->
+        <Logger name="com.crt.front.modules.report.mapper" level="debug" additivity="false">
+            <AppenderRef ref="sqlLogToFile"/>
+        </Logger>
+        <Logger name="com.qxcjs.demo" level="info" additivity="false">
+            <AppenderRef ref="infoLogToFile"/>
+            <AppenderRef ref="errorLogToFile"/>
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
+        <Logger name="org.springframework.web" level="info" additivity="false">
+            <AppenderRef ref="LogToConsole"/>
+            <AppenderRef ref="infoLogToFile"/>
+        </Logger>
+        <Root level="info">
+            <AppenderRef ref="infoLogToFile"/>
+            <AppenderRef ref="LogToConsole"/>
+        </Root>
+    </Loggers>
+</Configuration>
